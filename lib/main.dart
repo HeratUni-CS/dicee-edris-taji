@@ -1,57 +1,64 @@
+import 'dart:math';
 import 'package:flutter/material.dart';
 
 void main() {
-  runApp(
+  return runApp(
     MaterialApp(
+      debugShowCheckedModeBanner: false,
       home: Scaffold(
         backgroundColor: Colors.red,
         appBar: AppBar(
+          title: Text('Dicee'),
           backgroundColor: Colors.red,
-          title: const Text('Dice'),
         ),
-        body: const Dice(),
+        body: DicePage(),
       ),
     ),
   );
 }
 
-class Dice extends StatefulWidget {
-  const Dice({super.key});
-
+class DicePage extends StatefulWidget {
   @override
-  State<Dice> createState() => _DiceState();
+  _DicePageState createState() => _DicePageState();
 }
 
-class _DiceState extends State<Dice> {
-  int leftDice = 1;
-  int rightDice = 1;
-  void changeDices() {
-    leftDice = Random().nextInt(6) + 1;
-    rightDice = Random().nextInt(6) + 1;
+class _DicePageState extends State<DicePage> {
+  int leftDiceNumber = 1;
+  int rightDiceNumber = 1;
+
+  void changeDiceFace() {
+    setState(() {
+      leftDiceNumber = Random().nextInt(6) + 1;
+      rightDiceNumber = Random().nextInt(6) + 1;
+    });
   }
+
   @override
   Widget build(BuildContext context) {
     return Center(
       child: Row(
-        children: [
+        children: <Widget>[
           Expanded(
-              child: TextButton(
-            child: Image(image: AssetImage('images/dice$leftDice.png')),
-            onPressed: () {
-              setState(() {
-                changeDices();
-              });
-            },
-          )),
+            child: FlatButton(
+              child: Image.asset(
+                'images/dice$leftDiceNumber.png',
+              ),
+              onPressed: () {
+                changeDiceFace();
+              },
+            ),
+          ),
+          //Get students to create the second die as a challenge
           Expanded(
-              child: TextButton(
-            child: Image(image: AssetImage('images/dice$rightDice.png')),
-            onPressed: () {
-              setState(() {
-                changeDices();
-              });
-            },
-          )),
+            child: FlatButton(
+              child: Image.asset(
+                'images/dice$rightDiceNumber.png',
+              ),
+              onPressed: () {
+                changeDiceFace();
+              },
+            ),
+          ),
         ],
       ),
     );
